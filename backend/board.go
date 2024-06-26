@@ -8,7 +8,7 @@ const (
 )
 
 type Board struct {
-	Board [rows][cols]string
+	Board [rows][cols]int
 }
 
 func newBoard() *Board {
@@ -16,20 +16,20 @@ func newBoard() *Board {
 
 	for i := 0; i < rows; i++ {
 		for j := 0; j < cols; j++ {
-			b.Board[i][j] = ""
+			b.Board[i][j] = -1
 		}
 	}
 
 	return &b
 }
 
-func (b *Board) placePiece(col int, player string) error {
+func (b *Board) placePiece(col int, player int) error {
 	if col < 0 || col >= cols {
 		return fmt.Errorf("invalid column")
 	}
 
 	for i := rows - 1; i >= 0; i-- {
-		if b.Board[i][col] == "" {
+		if b.Board[i][col] == -1 {
 			b.Board[i][col] = player
 			return nil
 		}
@@ -38,12 +38,12 @@ func (b *Board) placePiece(col int, player string) error {
 	return fmt.Errorf("column %d is full", col)
 }
 
-func (b *Board) checkBoard() string {
+func (b *Board) checkBoard() int {
 	dirs := [3][2]int{{-1, 0}, {0, -1}, {-1, -1}}
 
 	for i := rows - 1; i >= 0; i-- {
 		for j := cols - 1; j >= 0; j-- {
-			if b.Board[i][j] == "" {
+			if b.Board[i][j] == -1 {
 				continue
 			}
 
@@ -67,5 +67,5 @@ func (b *Board) checkBoard() string {
 		}
 	}
 
-	return ""
+	return -1
 }
