@@ -24,6 +24,10 @@ func newBoard() *Board {
 }
 
 func (b *Board) placePiece(col int, player string) error {
+	if col < 0 || col >= cols {
+		return fmt.Errorf("invalid column")
+	}
+
 	for i := rows - 1; i >= 0; i-- {
 		if b.Board[i][col] == "" {
 			b.Board[i][col] = player
@@ -44,14 +48,14 @@ func (b *Board) checkBoard() string {
 			}
 
 			for _, dir := range dirs {
-				if i + 3 * dir[0] < 0 || j + 3 * dir[1] < 0 {
+				if i+3*dir[0] < 0 || j+3*dir[1] < 0 {
 					continue
 				}
 
 				cur := b.Board[i][j]
 
 				for k := 1; k < 4; k++ {
-					if b.Board[i + k * dir[0]][j + k * dir[1]] != cur {
+					if b.Board[i+k*dir[0]][j+k*dir[1]] != cur {
 						break
 					}
 
@@ -61,7 +65,7 @@ func (b *Board) checkBoard() string {
 				}
 			}
 		}
-	} 
+	}
 
 	return ""
 }
