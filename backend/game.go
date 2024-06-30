@@ -20,3 +20,20 @@ func NewGame() *Game {
 		turn:  0,
 	}
 }
+
+func (g *Game) playTurn(player int, col int) error {
+	g.mu.Lock()
+	defer g.mu.Unlock()
+
+	return g.Board.placePiece(player, col)
+}
+
+func (g *Game) checkWinner() uuid.UUID {
+	res := g.Board.checkBoard()
+
+	if res == -1 {
+		return uuid.UUID{}
+	}
+
+	return g.Players[res]
+}
