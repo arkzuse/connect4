@@ -14,10 +14,11 @@ type Game struct {
 	mu      sync.Mutex
 }
 
-func NewGame() *Game {
+func NewGame(player1 uuid.UUID, player2 uuid.UUID) *Game {
 	return &Game{
 		id:    uuid.New(),
 		board: NewBoard(),
+		players: [2]uuid.UUID{player1, player2},
 		turn:  0,
 	}
 }

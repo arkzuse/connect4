@@ -12,8 +12,8 @@ func NewGameManager() *GameManager {
 	}
 }
 
-func (gm *GameManager) newGame() *Game {
-	g := NewGame()
+func (gm *GameManager) newGame(player1 uuid.UUID, player2 uuid.UUID) *Game {
+	g := NewGame(player1, player2)
 	gm.games[g.id] = g
 	return g
 }
