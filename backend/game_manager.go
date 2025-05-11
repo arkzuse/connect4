@@ -14,7 +14,7 @@ func NewGameManager() *GameManager {
 
 func (gm *GameManager) NewGame() *Game {
 	g := NewGame()
-	gm.games[g.ID] = g
+	gm.games[g.id] = g
 	return g
 }
 

@@ -5,7 +5,7 @@ import (
 )
 
 func TestPlacePiece(t *testing.T) {
-	b := newBoard()
+	b := NewBoard()
 
 	err := b.placePiece(0, 0)
 	if err != nil {
@@ -30,7 +30,7 @@ func TestPlacePiece(t *testing.T) {
 	}
 
 	/// test diagonal win
-	b = newBoard()
+	b = NewBoard()
 
 	for i := 0; i < 4; i++ {
 		b.Board[i][i] = 0

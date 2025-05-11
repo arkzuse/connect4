@@ -3,37 +3,46 @@ package main
 import (
 	"github.com/google/uuid"
 	"sync"
+	"fmt"
 )
 
 type Game struct {
-	ID      uuid.UUID
-	Board   *Board
-	Players [2]uuid.UUID
+	id      uuid.UUID
+	board   *Board
+	players [2]uuid.UUID
 	turn    int
 	mu      sync.Mutex
 }
 
 func NewGame() *Game {
 	return &Game{
-		ID:    uuid.New(),
-		Board: newBoard(),
+		id:    uuid.New(),
+		board: NewBoard(),
 		turn:  0,
 	}
 }
 
-func (g *Game) playTurn(player int, col int) error {
+func (g *Game) playTurn(playerId uuid.UUID, col int) error {
 	g.mu.Lock()
 	defer g.mu.Unlock()
 
-	return g.Board.placePiece(player, col)
+	if (g.players[g.turn] != playerId) {
+		return fmt.Errorf("not player's turn")
+	}
+
+	err := g.board.placePiece(col, g.turn)
+
+	g.turn = (g.turn + 1) % 2
+
+	return err
 }
 
 func (g *Game) checkWinner() uuid.UUID {
-	res := g.Board.checkBoard()
+	res := g.board.checkBoard()
 
 	if res == -1 {
-		return uuid.UUID{}
+		return uuid.Nil
 	}
 
-	return g.Players[res]
+	return g.players[res]
 }

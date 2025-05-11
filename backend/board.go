@@ -11,7 +11,7 @@ type Board struct {
 	Board [rows][cols]int
 }
 
-func newBoard() *Board {
+func NewBoard() *Board {
 	var b Board
 
 	for i := 0; i < rows; i++ {
@@ -23,14 +23,18 @@ func newBoard() *Board {
 	return &b
 }
 
-func (b *Board) placePiece(col int, player int) error {
+func (b *Board) placePiece(col int, piece int) error {
 	if col < 0 || col >= cols {
 		return fmt.Errorf("invalid column")
 	}
 
+	if (piece < 0 || piece >= 2) {
+		return fmt.Errorf("invalid piece")
+	}
+
 	for i := rows - 1; i >= 0; i-- {
 		if b.Board[i][col] == -1 {
-			b.Board[i][col] = player
+			b.Board[i][col] = piece
 			return nil
 		}
 	}
