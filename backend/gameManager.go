@@ -12,12 +12,16 @@ func NewGameManager() *GameManager {
 	}
 }
 
-func (gm *GameManager) NewGame() *Game {
+func (gm *GameManager) newGame() *Game {
 	g := NewGame()
 	gm.games[g.id] = g
 	return g
 }
 
-func (gm *GameManager) GetGame(id uuid.UUID) *Game {
+func (gm *GameManager) getGameById(id uuid.UUID) *Game {
 	return gm.games[id]
+}
+
+func (gm *GameManager) removeGame(id uuid.UUID) {
+	delete(gm.games, id)
 }
